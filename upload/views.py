@@ -22,5 +22,8 @@ def upload_file(request):
     if request.method == 'GET':
         return Response({"message": "Unsupported"}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
-    data = request.data
-    return Response({"message": f"{len(data)} files parsed at the App Server"}, status=status.HTTP_200_OK)
+    if request.method == 'POST':
+        data = request.data
+        return Response({"message": f"{len(data)} files parsed at the App Server"}, status=status.HTTP_200_OK)
+
+    return Response({"message": "Unsupported"}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
