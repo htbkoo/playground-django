@@ -1,3 +1,7 @@
+from django.urls import include
+
+# from rest_framework import routers
+
 """
 URL configuration for playground_htbkoo project.
 
@@ -17,6 +21,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+import upload
+
+# router = routers.DefaultRouter()
+# router.register(r'upload', upload.views.UploadViewSet, 'upload')
+
 urlpatterns = [
+    # path('api/', include(router.urls)),
+
+    path('api/upload/', include(upload.urls)),
     path('admin/', admin.site.urls),
 ]
