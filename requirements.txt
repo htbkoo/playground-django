@@ -5,8 +5,17 @@
 #    ./compile_dependencies.sh
 #
 asgiref==3.8.1
-    # via django
+    # via
+    #   django
+    #   django-cors-headers
 django==5.0.6
+    # via
+    #   -r requirements.in
+    #   django-cors-headers
+    #   djangorestframework
+django-cors-headers==4.4.0
+    # via -r requirements.in
+djangorestframework==3.15.2
     # via -r requirements.in
 sqlparse==0.5.0
     # via django
