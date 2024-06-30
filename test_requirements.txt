@@ -13,6 +13,8 @@ packaging==24.1
 pluggy==1.5.0
     # via pytest
 pytest==8.2.2
-    # via -r test_requirements.in
-pytest-check==1.0.10
+    # via
+    #   -r test_requirements.in
+    #   pytest-check
+pytest-check==2.3.1
     # via -r test_requirements.in
