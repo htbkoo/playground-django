@@ -1,11 +1,11 @@
+from io import BytesIO
+
 from django.db.transaction import atomic
+from django.http import FileResponse
+from django.utils import timezone
 from rest_framework import viewsets, views, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from django.utils import timezone
-from django.http import FileResponse
-from django.db import models
-from io import BytesIO
 
 from .models import UploadFile
 
