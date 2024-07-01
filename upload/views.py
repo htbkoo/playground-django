@@ -39,6 +39,27 @@ class UploadFileView(APIView):
 
     """
 
+    def get(self, request):
+        params = request.query_params
+        if PARAM_KEY_NAME not in params:
+            return Response(
+                {"message": "Required <name> query parameter"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        name = params[PARAM_KEY_NAME]
+
+        try:
+
+            file = UploadFile.objects.get(name=name)
+            return FileResponse(
+                BytesIO(file.content),
+                filename=file.name,
+                status=status.HTTP_200_OK,
+                as_attachment=True,
+            )
+        except UploadFile.DoesNotExist as e:
+            return Response({"message": f"File <{name}> not found"}, status=status.HTTP_404_NOT_FOUND)
+
     def post(self, request):
         uploaded_files = list(request.data.values())
         save_multiple_files(uploaded_files)
