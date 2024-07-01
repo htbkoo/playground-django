@@ -1,6 +1,15 @@
+from django.db.transaction import atomic
 from rest_framework import viewsets, views, status
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.views import APIView
+from django.utils import timezone
+from django.http import FileResponse
+from django.db import models
+from io import BytesIO
+
+from .models import UploadFile
+
+PARAM_KEY_NAME = 'name'
 
 
 # Create your views here.
@@ -17,13 +26,24 @@ class UploadView(views.APIView):
         return Response("upload 200")
 
 
-@api_view(['GET', 'POST'])
-def upload_file(request):
-    if request.method == 'GET':
-        return Response({"message": "Unsupported"}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+@atomic
+def save_multiple_files(files):
+    print(f"count before: {UploadFile.objects.count()}")
+    for file in files:
+        uf = UploadFile(name=file.name, content=file.read(), upload_date=timezone.now())
+        uf.save()
 
-    if request.method == 'POST':
-        data = request.data
-        return Response({"message": f"{len(data)} files parsed at the App Server"}, status=status.HTTP_200_OK)
 
-    return Response({"message": "Unsupported"}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+class UploadFileView(APIView):
+    """
+
+    """
+
+    def post(self, request):
+        uploaded_files = list(request.data.values())
+        save_multiple_files(uploaded_files)
+
+        return Response(
+            {"message": f"{len(uploaded_files)} files parsed at the App Server"},
+            status=status.HTTP_200_OK,
+        )

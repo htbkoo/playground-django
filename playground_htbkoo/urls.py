@@ -21,7 +21,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-import upload
+from upload import urls as upload_urls
 
 # router = routers.DefaultRouter()
 # router.register(r'upload', upload.views.UploadViewSet, 'upload')
@@ -29,6 +29,6 @@ import upload
 urlpatterns = [
     # path('api/', include(router.urls)),
 
-    path('api/upload/', include(upload.urls)),
+    path('api/upload/', include(upload_urls)),
     path('admin/', admin.site.urls),
 ]
